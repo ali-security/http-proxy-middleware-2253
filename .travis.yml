@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-- 'stable'
+- '7'
 - '10'
 - '9'
-- '8'
-- '7'
 - '6'
 - '5'
+- '11'
+- '8'
 - '4'
 before_install:
 # https://github.com/npm/npm/issues/11283
@@ -15,4 +15,5 @@ after_success: npm run coveralls
 env:
   global:
     # COVERALLS_REPO_TOKEN=
-      secure: "I8mDH0n2DQHAPvUFEV/ZNmrMNYTJxgywg8+P3yuCAWwQkZeXQi0DWG+6VUpOylaRhL/4kCdZK9gnJD2MfrqvNqVLDUqBK3tTmZVoyqqJEdE0UdEHcPncAPmxWrG98sDjqFN9r4nWeizHvyA1fNRQHRN56Zy+DcQWjgEhHJaYeNA="
+    secure: "I8mDH0n2DQHAPvUFEV/ZNmrMNYTJxgywg8+P3yuCAWwQkZeXQi0DWG+6VUpOylaRhL/4kCdZK9gnJD2MfrqvNqVLDUqBK3tTmZVoyqqJEdE0UdEHcPncAPmxWrG98sDjqFN9r4nWeizHvyA1fNRQHRN56Zy+DcQWjgEhHJaYeNA="
+dist: trusty

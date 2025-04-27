@@ -153,6 +153,50 @@ describe('E2E http-proxy-middleware', function() {
       })
     })
 
+    describe('custom context matcher/filter (2)', function() {
+      var proxyServer, targetServer
+      var responseBody, response
+
+      beforeEach(function() {
+        var myError = new Error('MY_ERROR')
+        var filter = function(path, req) {
+          throw myError
+        }
+
+        var mwProxy = proxyMiddleware(filter, {
+          target: 'http://localhost:8000'
+        })
+
+        var mwTarget = function(req, res, next) {
+          res.write('HELLO WEB') // respond with 'HELLO WEB'
+          res.end()
+        }
+
+        proxyServer = createServer(3000, mwProxy)
+        targetServer = createServer(8000, mwTarget)
+      })
+
+      beforeEach(function(done) {
+        http.get('http://localhost:3000/api/b/c/d', function(res) {
+          response = res
+          res.on('data', function(chunk) {
+            responseBody = chunk.toString()
+            done()
+          })
+        })
+      })
+
+      afterEach(function() {
+        proxyServer.close()
+        targetServer.close()
+      })
+
+      it('should not proxy when filter throws Error', function() {
+        expect(response.statusCode).to.equal(404)
+        // expect(logger.error).to.have.been.calledWith(expect.objectContaining)
+      })
+    })
+
     describe('multi path', function() {
       var proxyServer, targetServer
       var response, responseBody
